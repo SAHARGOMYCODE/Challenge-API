@@ -30,6 +30,9 @@ const NavBar = (props) => {
             <NavItem>
               <Link to="/aboutus"> About us</Link>
             </NavItem>
+            <NavItem>
+              <Link to="/aboutus"> contact me</Link>
+            </NavItem>
           </Nav>
           <NavbarText>DrinkShop</NavbarText>
         </Collapse>

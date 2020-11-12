@@ -1,7 +1,35 @@
-import React from "react";
+import Axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Spinner } from "reactstrap";
 
-function CocktailDetails() {
-  return <div>CocktailDetails</div>;
+import SingleCocktail from "../components/SingleCocktail";
+
+function CocktailDetail(props) {
+  const [cocktail, setCocktail] = useState({});
+  const [loadCocktail, setLoadCocktail] = useState(true);
+
+  const { id } = props.match.params;
+  const getCocktailById = () => {
+    Axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`)
+      .then((res) => {
+        setCocktail(res.data.drinks[0]);
+        setLoadCocktail(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getCocktailById();
+  }, []);
+  return (
+    <div>
+      {loadCocktail ? (
+        <Spinner />
+      ) : (
+        <SingleCocktail cocktail={cocktail} loadCocktail={loadCocktail} />
+      )}
+    </div>
+  );
 }
 
-export default CocktailDetails;
+export default CocktailDetail;

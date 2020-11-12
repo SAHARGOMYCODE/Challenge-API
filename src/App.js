@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Home from "./pages/Home";
 import Error from "./pages/Error";
@@ -6,7 +6,6 @@ import NavBar from "./components/NavBar";
 import CocktailDetails from "./pages/CocktailDetails";
 import AboutUs from "./pages/AboutUs";
 import Footer from "./components/Footer";
-
 import Axios from "axios";
 import Cocktails from "./components/Cocktail";
 
@@ -15,12 +14,12 @@ function App() {
   const [cocktails, setCocktails] = useState([]);
   const [loadCocktails, setLoadCocktails] = useState(true);
   const getCocktail = () => {
-    Axios.get("https://www.thecocktaildb.com/api.php")
+    Axios.get("https://www.thecocktaildb.com/api/json/v1/1/search.php?s=")
       .then((res) => {
-        setCocktails(res.data.Drink);
+        setCocktails(res.data.drinks);
         setLoadCocktails(false);
       })
-      .catch((err) => console.err(err));
+      .catch((err) => console.log(err));
   };
   useEffect(() => {
     getCocktail();
@@ -30,17 +29,17 @@ function App() {
       <NavBar />
       <Switch>
         <Route
+          exact
           path="/"
           render={() => (
-            <Home Cocktails={Cocktails} loadCocktails={loadCocktails} />
+            <Home cocktails={cocktails} loadCocktails={loadCocktails} />
           )}
         />
-
         <Route path="/aboutus" component={AboutUs} />
         <Route
-          path="/cocktails/:idDrink"
+          path="/cocktails/:id"
           render={(props) => (
-            <CocktailDetails {...props} cocktails={cocktails} />
+            <CocktailDetails {...props} Cocktails={Cocktails} />
           )}
         />
         <Route path="/*" component={Error} />

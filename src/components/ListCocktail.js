@@ -1,23 +1,31 @@
 import React from "react";
-import { Spinner } from "react-bootstrap";
 import SingleCocktail from "./SingleCocktail";
-
-function CocktailList({ cocktails, loadCocktails }) {
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Erros from "../pages/Error";
+function ListCocktail({ cocktails, loadCocktails }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        flexWrap: "wrap",
-      }}
-    >
+    <div>
       {loadCocktails ? (
-        <Spinner animation="border" variant="danger" />
+        <LinearProgress />
+      ) : cocktails == null ? (
+        <Erros />
       ) : (
-        cocktails.map((el) => <SingleCocktail key={el.idDrink} cocktail={el} />)
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            flexDirection: "row-reverse",
+            margin: "5% 30%",
+          }}
+        >
+          {cocktails.map((el) => (
+            <SingleCocktail key={el.idDrink} cocktail={el} />
+          ))}
+        </div>
       )}
     </div>
   );
 }
 
-export default CocktailList;
+export default ListCocktail;
